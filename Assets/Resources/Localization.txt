@@ -1,0 +1,11 @@
+﻿KEY,Russian,English
+Flag,Flag-RU,Flag-US
+RusLanguage,Русский,Russian
+EngLanguage,Английский,English
+B_addTime,увеличена длительность боя,increase battle time
+B_sizeUp,радиус атаки увеличен,increase attack radius
+B_speedUp,увеличена скорость перезарядки,increase recharge speed
+B_armor,уменьшен получаемый урон,reduce product damage
+B_chain,уменьшена скорость врагов,reduce enemies speed
+B_shield,защита от выстрелов,defence from shots
+Score,СЧЕТ:,SCORE:

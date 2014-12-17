@@ -1,0 +1,10 @@
+NGUI
+Visual Studio 2013 Tools for Unity https://visualstudiogallery.msdn.microsoft.com/20b80b8c-659b-45ef-96c1-437828fe7cf2
+Fast Platform Switch http://jemast.com/unity/fast-platform-switch
+A* Pathfinding Project http://arongranberg.com/astar/
+Unity Editor Toolbar http://u3d.as/content/poq-xert/unity-editor-toolbar/34m
+Log Viewer https://www.assetstore.unity3d.com/en/#!/content/12047
+
+http://wiki.unity3d.com/index.php?title=LayerMaskExtensions
+http://kevinfields.com/tag/code-generation/
+NameHierarchySort http://unity3d.ru/distribution/viewtopic.php?f=105&t=25967
