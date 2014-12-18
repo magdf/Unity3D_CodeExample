@@ -3911,7 +3911,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 13
+  aspectRatio: 11.6000004
 --- !u!1001 &429979900
 Prefab:
   m_ObjectHideFlags: 0
@@ -6449,7 +6449,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 3.27419353
+  aspectRatio: 2.93548393
   mType: 4
   mFillDirection: 0
   mFillAmount: .0399999991
@@ -8961,7 +8961,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 4.33333349
+  aspectRatio: 4.32777786
 --- !u!114 &884635716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15474,7 +15474,7 @@ MonoBehaviour:
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 13
+  aspectRatio: 11.6000004
 --- !u!1 &1663474520
 GameObject:
   m_ObjectHideFlags: 0
