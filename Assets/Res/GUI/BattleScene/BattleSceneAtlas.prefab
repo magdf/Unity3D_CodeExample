@@ -219,7 +219,7 @@ MonoBehaviour:
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 10
+    paddingLeft: 0
     paddingRight: 10
     paddingTop: 10
     paddingBottom: 10

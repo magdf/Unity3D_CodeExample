@@ -9,33 +9,33 @@ public class ShootingController : MonoBehaviour
     [SerializeField]
     private Transform _cannonballPrefab;
 
-    [SerializeField, Tooltip("Величина прибавки к стартовой позиции выстрела, относительно текущей высоты ShootingController")]
+    [SerializeField, Tooltip("Magnitude of increase to starting shooting position relative a current height")]
     private float _startShootHeightUnder = 20f;
 
     [SerializeField]
-    private float _projectorSizeAfterShoot=0.5f;
+    private float _projectorSizeAfterShoot = 0.5f;
 
-    private Projector _projector; 
+    private Projector _projector;
     private Color _startColor;
 
     private bool _isCooldownInProgress;
 
-	void Start () 
-	{
-	    _projector = GetComponent<Projector>();
-	    _startColor = _projector.material.color;
+    void Start()
+    {
+        _projector = GetComponent<Projector>();
+        _startColor = _projector.material.color;
         _projector.orthoGraphicSize = PlayerStats.Instance.CurrentExplosionSize;
 
-	    Material m = new Material(_projector.material);
-	    _projector.material = m;
+        Material m = new Material(_projector.material);
+        _projector.material = m;
 
-	    EventAggregator.Subscribe(GameEvent.EngGameProcess, this, () => { _projector.material.color = Color.white; });
-	}
+        EventAggregator.Subscribe(GameEvent.EngGameProcess, this, () => { _projector.material.color = Color.white; });
+    }
 
     /// <summary>
-    /// Счетчик времени между touchBegin и touchEnd.
+    /// Time counter between touchBegin and touchEnd
     /// </summary>
-    private float _tapDuration=10f;
+    private float _tapDuration = 10f;
 
     private void Update()
     {
@@ -58,9 +58,9 @@ public class ShootingController : MonoBehaviour
         {
             for (var i = 0; i < Input.touchCount; ++i)
             {
-                if (Input.GetTouch(i).phase == TouchPhase.Moved) //если было большое перемещение, то сброс таймера
+                if (Input.GetTouch(i).phase == TouchPhase.Moved)
                 {
-                    if (Input.GetTouch(i).deltaPosition.magnitude>10)
+                    if (Input.GetTouch(i).deltaPosition.magnitude > 10)  //if there was a large movement then reset the timer
                         _tapDuration = 10;
                 }
             }
@@ -78,7 +78,7 @@ public class ShootingController : MonoBehaviour
 
     private void TryShoot()
     {
-        if (_tapDuration<0.5f)
+        if (_tapDuration < 0.5f)
             Shoot();
 
         _tapDuration = 0;
@@ -87,7 +87,7 @@ public class ShootingController : MonoBehaviour
     private void Shoot()
     {
         var uicam = BattleManager.Instance.UICamera;
-        if (Conditions.GUI.ClickOverGUI(uicam.camera,Consts.LayerMasks.UI))
+        if (Conditions.GUI.ClickOverGUI(uicam.camera, Consts.LayerMasks.UI))
             return;
 
         Vector3 pos = transform.position + new Vector3(0, _startShootHeightUnder, 0);
@@ -107,11 +107,11 @@ public class ShootingController : MonoBehaviour
         float offset = 0f;
         while (!Mathf.Approximately(_projector.orthographicSize, PlayerStats.Instance.CurrentExplosionSize))
         {
-            var elapsedTime = Time.time - coolDownStartTime;//прошедшее время со старта кулдауна
+            var elapsedTime = Time.time - coolDownStartTime;//elapsed time relatively cooldown start
 
-            //корректировка прошедщего времени с учетом изменения кулдауна бонусами во время его отчета. 
-            if (!Mathf.Approximately(cooldownDurationAtStart,PlayerStats.Instance.CurrentShootCooldown))
-            {
+            if (!Mathf.Approximately(cooldownDurationAtStart, PlayerStats.Instance.CurrentShootCooldown))
+            {            
+                //elapsed time adjustment with an allowance cooldown changes through bonuses.
                 offset = elapsedTime * (PlayerStats.Instance.CurrentShootCooldown / cooldownDurationAtStart) - elapsedTime;
                 cooldownDurationAtStart = PlayerStats.Instance.CurrentShootCooldown;
             }
@@ -122,7 +122,7 @@ public class ShootingController : MonoBehaviour
         }
 
         _projector.orthographicSize = PlayerStats.Instance.CurrentExplosionSize;
-        if (BattleManager.CurrentGameMode!= GameMode.Victory)
+        if (BattleManager.CurrentGameMode != GameMode.Victory)
             _projector.material.color = _startColor;
         _isCooldownInProgress = false;
     }
