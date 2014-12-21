@@ -24,12 +24,6 @@ public class Checkpoint : MonoBehaviour
             unit.SendMessage(Consts.Events.OnFinalCheckpointEnter, this,SendMessageOptions.DontRequireReceiver);
     }
 
-
-    private void OnDrawGizmos()
-    {
-        GizmosUtils.DrawText(CustomEditorPrefsProxy.GizmoGuiSkin, name, transform.position);
-    }
-
     private  void OnDrawGizmosSelected()
     {
         foreach (var c in _nextCheckpoints)

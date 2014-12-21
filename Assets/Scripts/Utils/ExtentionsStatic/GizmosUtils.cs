@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using EventSystem.Internal;
+using UnityEngine;
 using System.Collections;
 
 public static class GizmosUtils
@@ -15,14 +16,14 @@ public static class GizmosUtils
 
         GUIStyle style = (guiSkin != null) ? new GUIStyle(guiSkin.GetStyle("Label")) : new GUIStyle();
         if (color != null)
-            style.normal.textColor = (Color) color;
+            style.normal.textColor = (Color)color;
         if (fontSize > 0)
             style.fontSize = fontSize;
 
 
         Vector2 size = style.CalcSize(nameContent);
         Vector3 screenPoint = Camera.current.WorldToScreenPoint(position);
-        position = Camera.current.ScreenToWorldPoint(new Vector3(screenPoint.x - size.x*0.5f, screenPoint.y, -screenPoint.z));
+        position = Camera.current.ScreenToWorldPoint(new Vector3(screenPoint.x - size.x * 0.5f, screenPoint.y, -screenPoint.z));
         UnityEditor.Handles.Label(position, nameContent, style);
         GUI.skin = prevSkin;
 #endif
@@ -31,14 +32,16 @@ public static class GizmosUtils
     public static void DrawSquareGrid(Vector3 center, float size, float countCells)
     {
 #if UNITY_EDITOR
-        Vector3 gridCenter = center + new Vector3(-size / 2f+0.5f, 0f, -size / 2f+0.5f);
+        Vector3 gridCenter = center + new Vector3(-size / 2f + 0.5f, 0f, -size / 2f + 0.5f);
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
             {
-                if (countCells<=i*size+j)
+                if (countCells <= i * size + j)
                     return;
-                Gizmos.DrawCube(gridCenter+new Vector3(i, 0, j),new Vector3(0.9f,1f,0.9f));
+
+                var cellCenter = PhysicsUtils.RaycastFromUpToDown(gridCenter + new Vector3(i, 0, j), Consts.LayerMasks.GroundForUnits).point;
+                Gizmos.DrawCube(cellCenter, new Vector3(0.9f, 1f, 0.9f));
             }
         }
 #endif

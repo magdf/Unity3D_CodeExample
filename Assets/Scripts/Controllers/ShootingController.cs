@@ -6,7 +6,7 @@ using System.Collections;
 /// </summary>
 public class ShootingController : MonoBehaviour
 {
-    [SerializeField, TooltipAttribute("Префаб ядра пушки")]
+    [SerializeField]
     private Transform _cannonballPrefab;
 
     [SerializeField, Tooltip("Величина прибавки к стартовой позиции выстрела, относительно текущей высоты ShootingController")]
@@ -58,19 +58,8 @@ public class ShootingController : MonoBehaviour
         {
             for (var i = 0; i < Input.touchCount; ++i)
             {
-                //if (Input.GetTouch(i).phase == TouchPhase.Began)
-                //{
-                //    if (Input.GetTouch(i).tapCount >= 2) // double tap
-                //    //if (Input.GetTouch(i).phase.Equals(TouchPhase.)) 
-                //    {
-                //        Shoot();
-                //        return;
-                //    }
-                //}
-
                 if (Input.GetTouch(i).phase == TouchPhase.Moved) //если было большое перемещение, то сброс таймера
                 {
-                    //Debug.LogWarning(Input.GetTouch(i).deltaPosition);
                     if (Input.GetTouch(i).deltaPosition.magnitude>10)
                         _tapDuration = 10;
                 }
@@ -100,7 +89,7 @@ public class ShootingController : MonoBehaviour
         var uicam = BattleManager.Instance.UICamera;
         if (Conditions.GUI.ClickOverGUI(uicam.camera,Consts.LayerMasks.UI))
             return;
-        //Debug.LogWarning("shoot");
+
         Vector3 pos = transform.position + new Vector3(0, _startShootHeightUnder, 0);
         Instantiate(_cannonballPrefab, pos, Quaternion.identity);
         StartCoroutine(ProjectorSizeCoroutine());
@@ -125,19 +114,13 @@ public class ShootingController : MonoBehaviour
             {
                 offset = elapsedTime * (PlayerStats.Instance.CurrentShootCooldown / cooldownDurationAtStart) - elapsedTime;
                 cooldownDurationAtStart = PlayerStats.Instance.CurrentShootCooldown;
-                //Debug.LogWarning("offset="+offset);
-                //Debug.LogWarning("elapsedTime=" + elapsedTime);
             }
             elapsedTime += offset;
 
             _projector.orthographicSize = Mathf.Lerp(_projectorSizeAfterShoot, PlayerStats.Instance.CurrentExplosionSize, elapsedTime / cooldownDurationAtStart);
-            //Debug.LogWarning("_projector.orthographicSize=" + _projector.orthographicSize);
-            //Debug.LogWarning("PlayerStats.Instance.CurrentExplosionSize=" + PlayerStats.Instance.CurrentExplosionSize);
-            //Debug.LogWarning("elapsedTime / cooldownDurationAtStart=" + (elapsedTime / cooldownDurationAtStart));
             yield return null;
         }
-        //Debug.LogWarning("_projector.orthographicSize=" + _projector.orthographicSize);
-        //Debug.LogWarning("elapsedTime on end=" + (Time.time-coolDownStartTime));
+
         _projector.orthographicSize = PlayerStats.Instance.CurrentExplosionSize;
         if (BattleManager.CurrentGameMode!= GameMode.Victory)
             _projector.material.color = _startColor;

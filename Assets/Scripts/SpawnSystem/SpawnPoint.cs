@@ -31,14 +31,17 @@ public class SpawnPoint : MonoBehaviour
 
     private float _remainCooldownTime = 3;
 
+    private Vector3 _gridCenter;
+        
     private void Start()
     {
         _remainCooldownTime = _timeBeforeFirstSpawn;
+        var squareSize = GetSpawnSquareSize();
+        _gridCenter = transform.position + new Vector3(-squareSize / 2f + 0.5f, 0f, -squareSize / 2f + 0.5f);
     }
 
     private void Update()
     {
-        Profiler.BeginSample("_SpawnWave");
         if (BattleManager.CurrentGameMode != GameMode.Normal)
             return;
 
@@ -48,7 +51,6 @@ public class SpawnPoint : MonoBehaviour
             if (CanDoSpawn)
                 SpawnWave();
         }
-        Profiler.EndSample();
     }
 
     public void ImmediateSpawn()
@@ -61,9 +63,8 @@ public class SpawnPoint : MonoBehaviour
         _remainCooldownTime = _cooldown;
 
         int mobsInCurrentWave = UnityEngine.Random.Range(_minMobsPerWave, _maxMobsPerWave + 1);
-
         var squareSize = GetSpawnSquareSize();
-        Vector3 gridCenter = transform.position + new Vector3(-squareSize / 2f + 0.5f, 0f, -squareSize / 2f + 0.5f);
+        
         for (int i = 0; i < squareSize; i++)
         {
             for (int j = 0; j < squareSize; j++)
@@ -73,7 +74,7 @@ public class SpawnPoint : MonoBehaviour
                 if (!CanDoSpawn)
                     return;
 
-                var cellpos = gridCenter + new Vector3(i, 0, j);
+                var cellpos = _gridCenter + new Vector3(i, 0, j);
 
                 var mob = (Transform)Instantiate(_prefab, cellpos, transform.rotation);
                 mob.parent = SceneContainers.Units;
@@ -99,10 +100,6 @@ public class SpawnPoint : MonoBehaviour
     {
         Gizmos.color = Color.blue.WithAlpha(0.3f);
         GizmosUtils.DrawSquareGrid(transform.position, GetSpawnSquareSize(), _maxMobsPerWave);
-
-        GizmosUtils.DrawText(CustomEditorPrefsProxy.GizmoGuiSkin, "spawnpoint:\n" + ((_prefab != null) ? _prefab.name : "prefab=null"),
-                             transform.position, Color.cyan,
-                             (int)(CustomEditorPrefsProxy.GizmoGuiSkin.GetStyle("Label").fontSize * 0.8));
     }
 
     private void OnDrawGizmosSelected()
